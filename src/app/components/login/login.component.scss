@@ -1,0 +1,90 @@
+/* 
+  Styles du composant de connexion
+  
+  Ces styles définissent l'apparence de la page de connexion :
+  - Centrage du formulaire sur la page
+  - Mise en forme de la carte de connexion
+  - Styles des champs de formulaire
+  - Styles des messages d'erreur
+  - Styles du bouton de connexion
+*/
+
+// Conteneur principal qui centre le formulaire sur la page
+.login-container {
+  // Utilise Flexbox pour centrer verticalement et horizontalement
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  // Prend toute la hauteur de la page
+  height: 100vh;
+  
+  // Fond légèrement grisé pour contraster avec la carte
+  background-color: #f5f5f5;
+}
+
+// Styles de la carte contenant le formulaire
+.login-card {
+  // Largeur fixe pour une meilleure lisibilité
+  width: 100%;
+  max-width: 400px;
+  
+  // Espacement intérieur
+  padding: 20px;
+  
+  // Ombre portée pour donner de la profondeur
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+// Styles du formulaire
+form {
+  // Disposition en colonne des éléments
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  
+  // Espacement en haut
+  margin-top: 20px;
+}
+
+// Styles des champs de formulaire
+mat-form-field {
+  // Prend toute la largeur disponible
+  width: 100%;
+}
+
+// Styles du bouton de connexion
+button[type="submit"] {
+  // Hauteur fixe pour une meilleure ergonomie
+  height: 48px;
+  
+  // Espacement en haut
+  margin-top: 16px;
+  
+  // Police en gras
+  font-weight: 500;
+}
+
+// Styles du message d'erreur
+.error-message {
+  // Disposition en ligne des éléments
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  
+  // Couleur rouge pour indiquer l'erreur
+  color: #f44336;
+  
+  // Espacement
+  margin-top: 8px;
+  
+  // Taille de police
+  font-size: 14px;
+  
+  // Style de l'icône d'erreur
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+} 

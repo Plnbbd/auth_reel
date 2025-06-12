@@ -1,0 +1,41 @@
+# Fichiers de compilation et dépendances
+/dist/
+/node_modules/
+/.angular/cache
+
+# Fichiers de configuration locale et environnements
+/.env
+/.env.*
+!.env.example
+
+# Fichiers de logs et débogage
+/logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Fichiers IDE et éditeurs
+/.idea/
+/.vscode/
+*.swp
+*.swo
+*.sublime-workspace
+*.code-workspace
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Fichiers temporaires
+/tmp/
+*.tmp
+*.bak
+
+# Fichiers de couverture de tests
+/coverage/
+
+# Fichiers spécifiques à Angular
+/browserlist
+/karma.conf.js
+/tsconfig.*.json

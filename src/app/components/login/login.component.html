@@ -1,0 +1,64 @@
+<!-- 
+  Template du composant de connexion
+  
+  Ce template définit l'interface utilisateur de la page de connexion avec :
+  - Un conteneur principal centré sur la page
+  - Une carte Material contenant le formulaire
+  - Des champs de saisie pour les identifiants
+  - Un bouton de connexion
+  - Des indicateurs de chargement et d'erreur
+-->
+
+<div class="login-container">
+  <!-- Carte Material contenant le formulaire de connexion -->
+  <mat-card class="login-card">
+    <!-- En-tête de la carte avec le titre -->
+    <mat-card-header>
+      <mat-card-title>Connexion</mat-card-title>
+    </mat-card-header>
+
+    <!-- Contenu de la carte -->
+    <mat-card-content>
+      <!-- Formulaire de connexion -->
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <!-- Champ pour le nom d'utilisateur -->
+        <mat-form-field appearance="outline">
+          <mat-label>Nom d'utilisateur</mat-label>
+          <input matInput formControlName="username" placeholder="Entrez votre nom d'utilisateur">
+          <!-- Message d'erreur si le champ est vide -->
+          <mat-error *ngIf="loginForm.get('username')?.hasError('required')">
+            Le nom d'utilisateur est requis
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Champ pour le mot de passe -->
+        <mat-form-field appearance="outline">
+          <mat-label>Mot de passe</mat-label>
+          <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password">
+          <!-- Bouton pour afficher/masquer le mot de passe -->
+          <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
+            <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <!-- Message d'erreur si le champ est vide -->
+          <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+            Le mot de passe est requis
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Message d'erreur de connexion -->
+        <div *ngIf="errorMessage" class="error-message">
+          <mat-icon>error</mat-icon>
+          <span>{{errorMessage}}</span>
+        </div>
+
+        <!-- Bouton de connexion -->
+        <button mat-raised-button color="primary" type="submit" [disabled]="isLoading">
+          <!-- Indicateur de chargement pendant la connexion -->
+          <mat-spinner diameter="20" *ngIf="isLoading"></mat-spinner>
+          <!-- Texte du bouton -->
+          <span *ngIf="!isLoading">Se connecter</span>
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div> 
