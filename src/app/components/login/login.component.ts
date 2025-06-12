@@ -388,7 +388,7 @@ export class LoginComponent implements OnInit {
     // Si oui, on le redirige vers la page d'accueil
     // C'est utile si quelqu'un essaie d'accéder à /login alors qu'il est déjà connecté
     if (this.authService.isAuthenticated()) {
-      this.router.navigate(['/']);
+      this.router.navigate(['/dashboard']);
     }
   }
 
@@ -402,6 +402,7 @@ export class LoginComponent implements OnInit {
       this.isLoading = true;
       // On efface les messages d'erreur précédents
       this.errorMessage = '';
+      this.showError = false;
 
       // On récupère les identifiants saisis
       const credentials: LoginCredentials = {
@@ -413,31 +414,29 @@ export class LoginComponent implements OnInit {
       this.authService.login(credentials).subscribe({
         // Si la connexion réussit
         next: (response: AuthResponse) => {
-          this.isLoading = false;  // On désactive le chargement
-          
-          // Log de débogage pour voir la réponse du serveur
-          console.log('Réponse du serveur:', response);
+          console.log('Réponse complète du serveur:', response);
           
           // Si la connexion est réussie, on redirige vers first-password
-          if (response.success) {
+          if (response && response.success) {
             console.log('Connexion réussie, redirection vers first-password');
             this.router.navigate(['/first-password']);
           } else {
             // Si la connexion échoue, on affiche le message d'erreur
-            this.errorMessage = response.message || 'Une erreur est survenue lors de la connexion';
+            this.errorMessage = response?.message || 'Une erreur est survenue lors de la connexion';
+            this.showError = true;
           }
         },
         // Si la connexion échoue
         error: (error) => {
-          this.isLoading = false;  // On désactive le chargement
-          
-          // Log de débogage pour voir l'erreur
           console.error('Erreur de connexion:', error);
           
           // On affiche un message d'erreur approprié
           if (error.status === 401) {
             // Si les identifiants sont incorrects
             this.errorMessage = 'Identifiants invalides';
+          } else if (error.error?.message) {
+            // Si le serveur renvoie un message d'erreur spécifique
+            this.errorMessage = error.error.message;
           } else if (error.error?.errors) {
             // Si le serveur renvoie des erreurs de validation
             this.errorMessage = Object.values(error.error.errors).join(', ');
@@ -445,8 +444,10 @@ export class LoginComponent implements OnInit {
             // Pour toute autre erreur
             this.errorMessage = 'Une erreur est survenue lors de la connexion';
           }
+          this.showError = true;
         },
         complete: () => {
+          // On désactive le chargement dans tous les cas
           this.isLoading = false;
         }
       });
