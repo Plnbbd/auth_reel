@@ -3,13 +3,12 @@
  * 
  * Ce composant est le point d'entrée de l'application. Il :
  * - Gère la structure globale de l'application
- * - Affiche la barre de navigation
+ * - Affiche la barre de navigation uniquement sur le dashboard
  * - Gère l'affichage conditionnel des éléments
  * - S'occupe de la déconnexion
  * 
  * La barre de navigation est affichée uniquement :
- * - Quand l'utilisateur est connecté
- * - Sur les pages qui ne sont pas la page de connexion
+ * - Sur la page dashboard
  */
 
 import { Component } from '@angular/core';
@@ -24,7 +23,7 @@ import { FooterComponent } from './components/footer/footer.component';
   standalone: true,
   imports: [CommonModule, RouterModule, FooterComponent],
   template: `
-    <nav *ngIf="!isLoginPage">
+    <nav *ngIf="shouldShowNavbar()">
       <div class="nav-content">
         <!-- Logo et titre -->
         <div class="nav-brand">
@@ -55,7 +54,7 @@ import { FooterComponent } from './components/footer/footer.component';
       </div>
     </nav>
 
-    <main [class.with-navbar]="!isLoginPage">
+    <main [class.with-navbar]="shouldShowNavbar()">
       <router-outlet></router-outlet>
     </main>
 
@@ -151,7 +150,7 @@ import { FooterComponent } from './components/footer/footer.component';
   `]
 })
 export class AppComponent {
-  isLoginPage = false;
+  currentUrl = '';
 
   constructor(
     private router: Router,
@@ -161,9 +160,16 @@ export class AppComponent {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: any) => {
-      // Masquer la navbar sur la page de login
-      this.isLoginPage = event.url === '/login';
+      this.currentUrl = event.url;
     });
+  }
+
+  /**
+   * Détermine si la navbar doit être affichée
+   * La navbar n'est affichée que sur la page dashboard
+   */
+  shouldShowNavbar(): boolean {
+    return this.currentUrl === '/dashboard';
   }
 
   /**
