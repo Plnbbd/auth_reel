@@ -39,3 +39,4 @@ Thumbs.db
 /browserlist
 /karma.conf.js
 /tsconfig.*.json
+.env
